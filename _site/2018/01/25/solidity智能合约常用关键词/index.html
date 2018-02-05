@@ -1,0 +1,49 @@
+<h1 id="solidity智能合约之-常用的关键词"><strong>solidity智能合约之 常用的关键词</strong></h1>
+<h1 id="public-internal-private--的区别">public internal private  的区别</h1>
+
+<pre><code class="language-sol"> pragma solidity ^0.4.19;
+
+contract DaWang {
+    address public a;
+    address internal b;
+    address private  c;
+  function DaWang() public {
+    a = msg.sender;
+    b = msg.sender;
+    c = msg.sender;
+  }
+
+}
+contract XiaoWang is DaWang{
+  function XiaoWang() public{
+    a = msg.sender;
+    b = msg.sender;
+
+  }
+
+}
+
+</code></pre>
+<ul>
+  <li>根据运行的结果可以知道
+ <img src="image/solidity.jpeg" alt="" /></li>
+  <li>**public **
+    <blockquote>
+      <p>权限最大,子类可以继承
+ 默认有get方法
+ 当前可以访问</p>
+    </blockquote>
+  </li>
+  <li>**internal **
+    <blockquote>
+      <p>子类可以继承
+ 子类可以访问</p>
+    </blockquote>
+  </li>
+  <li>**private **
+    <blockquote>
+      <p>子类不可以继承
+ 子类不可以访问</p>
+    </blockquote>
+  </li>
+</ul>

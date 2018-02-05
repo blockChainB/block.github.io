@@ -5,9 +5,68 @@
     <description>lfx 微信:chen1048258，全球区块链职业教育布道师，通信和信息技术培养工程区块链高级授课专家。</description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 30 Jan 2018 20:54:59 +0800</pubDate>
-    <lastBuildDate>Tue, 30 Jan 2018 20:54:59 +0800</lastBuildDate>
+    <pubDate>Mon, 05 Feb 2018 17:55:52 +0800</pubDate>
+    <lastBuildDate>Mon, 05 Feb 2018 17:55:52 +0800</lastBuildDate>
     <generator>Jekyll v3.5.1</generator>
+    
+      <item>
+        <title>Solidity智能合约常用关键词</title>
+        <description>&lt;h1 id=&quot;solidity智能合约之-常用的关键词&quot;&gt;&lt;strong&gt;solidity智能合约之 常用的关键词&lt;/strong&gt;&lt;/h1&gt;
+&lt;h1 id=&quot;public-internal-private--的区别&quot;&gt;public internal private  的区别&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-sol&quot;&gt; pragma solidity ^0.4.19;
+
+contract DaWang {
+    address public a;
+    address internal b;
+    address private  c;
+  function DaWang() public {
+    a = msg.sender;
+    b = msg.sender;
+    c = msg.sender;
+  }
+
+}
+contract XiaoWang is DaWang{
+  function XiaoWang() public{
+    a = msg.sender;
+    b = msg.sender;
+
+  }
+
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+  &lt;li&gt;根据运行的结果可以知道
+ &lt;img src=&quot;image/solidity.jpeg&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
+  &lt;li&gt;**public **
+    &lt;blockquote&gt;
+      &lt;p&gt;权限最大,子类可以继承
+ 默认有get方法
+ 当前可以访问&lt;/p&gt;
+    &lt;/blockquote&gt;
+  &lt;/li&gt;
+  &lt;li&gt;**internal **
+    &lt;blockquote&gt;
+      &lt;p&gt;子类可以继承
+ 子类可以访问&lt;/p&gt;
+    &lt;/blockquote&gt;
+  &lt;/li&gt;
+  &lt;li&gt;**private **
+    &lt;blockquote&gt;
+      &lt;p&gt;子类不可以继承
+ 子类不可以访问&lt;/p&gt;
+    &lt;/blockquote&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Thu, 25 Jan 2018 00:00:00 +0800</pubDate>
+        <link>/2018/01/25/solidity%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E5%B8%B8%E7%94%A8%E5%85%B3%E9%94%AE%E8%AF%8D/</link>
+        <guid isPermaLink="true">/2018/01/25/solidity%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E5%B8%B8%E7%94%A8%E5%85%B3%E9%94%AE%E8%AF%8D/</guid>
+        
+        
+      </item>
     
       <item>
         <title>【李程】区块链演进及跨域安全解决方案</title>
@@ -1145,254 +1204,6 @@ web3.eth.sendTransaction({from: '0xe38af4e162a40d27c6f15e754be1a940ca6b41ab',to:
         <guid isPermaLink="true">/2017/11/30/embark-basic/</guid>
         
         <category>embark</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>【IPFS + 区块链 系列】 入门篇 - IPFS + Ethereum （下篇）-ipfs + Ethereum 大图片存储</title>
-        <description>&lt;blockquote&gt;
-  &lt;p&gt;&lt;a href=&quot;http://liyuechun.org&quot;&gt;区块链技术博客：http://liyuechun.org&lt;/a&gt;
-&lt;a href=&quot;http://www.kongyixueyuan.com&quot;&gt;区块链视频网站：http://www.kongyixueyuan.com&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;ebay项目&quot;&gt;Ebay项目&lt;/h2&gt;
-
-&lt;p&gt;&lt;strong&gt;基于以太坊Ethereum &amp;amp; IPFS的去中心化Ebay区块链项目&lt;a href=&quot;https://mp.weixin.qq.com/s/feY21MxV_-LuWogPW6qqWA&quot;&gt;详情链接&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://om1c35wrq.bkt.clouddn.com/ipfs-http.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;目录&quot;&gt;目录&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;#1-系列文章&quot;&gt;1. 系列文章&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#2-项目描述及效果展示&quot;&gt;2. 项目描述及效果展示&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#3-阅读本文需要掌握的知识&quot;&gt;3. 阅读本文需要掌握的知识&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#4-源码&quot;&gt;4. 源码&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#5-运行程序&quot;&gt;5. 运行程序&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#6-技术交流&quot;&gt;6. 技术交流&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;1-系列文章&quot;&gt;1. 系列文章&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;http://liyuechun.org/2017/11/20/ipfs-blockchain/&quot;&gt;【IPFS + 区块链 系列】 入门篇 - IPFS环境配置&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://liyuechun.org/2017/11/21/ipfs-blockchain-blogger/&quot;&gt;【IPFS + 区块链 系列】 入门篇 - IPFS+IPNS+个人博客搭建&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://liyuechun.org/2017/11/22/ipfs-api/&quot;&gt;【IPFS + 区块链 系列】 入门篇 - IPFS + Ethereum （上篇）-js-ipfs-api - 数据上传到IPFS&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://liyuechun.org/2017/11/26/ipfs-upload-image/&quot;&gt;【IPFS + 区块链 系列】 入门篇 - IPFS + Ethereum （中篇）-js-ipfs-api - 图片上传到IPFS以及下载&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;2-项目描述及效果展示&quot;&gt;2. 项目描述及效果展示&lt;/h2&gt;
-
-&lt;p&gt;这篇文章通过&lt;code class=&quot;highlighter-rouge&quot;&gt;truffle unbox react&lt;/code&gt;创建项目，安装&lt;code class=&quot;highlighter-rouge&quot;&gt;ipfs-api&lt;/code&gt;，将图片存储到&lt;code class=&quot;highlighter-rouge&quot;&gt;ipfs&lt;/code&gt;，将图片&lt;code class=&quot;highlighter-rouge&quot;&gt;hash&lt;/code&gt;存储到&lt;code class=&quot;highlighter-rouge&quot;&gt;Ethereum&lt;/code&gt;区块链，取数据时先从区块链读取图片&lt;code class=&quot;highlighter-rouge&quot;&gt;hash&lt;/code&gt;，再通过&lt;code class=&quot;highlighter-rouge&quot;&gt;hash&lt;/code&gt;从&lt;code class=&quot;highlighter-rouge&quot;&gt;ipfs&lt;/code&gt;读取数据，解决了区块链大数据存储成本高昂的问题。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://om1c35wrq.bkt.clouddn.com/ipfs-ether-image-0001gif.gif&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;http://om1c35wrq.bkt.clouddn.com/ipfs-ether-image--0002.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;3-阅读本文需要掌握的知识&quot;&gt;3. 阅读本文需要掌握的知识&lt;/h2&gt;
-
-&lt;p&gt;阅读本文需要将先学习上面的系列文章，由于本文前端使用了大量的React语法，所以建议学习一些&lt;a href=&quot;http://edu.csdn.net/course/play/4749&quot;&gt;React语法&lt;/a&gt;，还需要学习&lt;a href=&quot;http://truffleframework.com/&quot;&gt;truffle framework&lt;/a&gt;。&lt;/p&gt;
-
-&lt;h2 id=&quot;4-源码&quot;&gt;4. 源码&lt;/h2&gt;
-
-&lt;p&gt;其实这篇文章的内容就是上面几篇文章的综合结合体，所以在这里我将不再对代码做过多的概述。&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;import React, {Component} from 'react'
-import SimpleStorageContract from '../build/contracts/SimpleStorage.json'
-import getWeb3 from './utils/getWeb3'
-
-import './css/oswald.css'
-import './css/open-sans.css'
-import './css/pure-min.css'
-import './App.css'
-
-const ipfsAPI = require('ipfs-api');
-const ipfs = ipfsAPI({host: 'localhost', port: '5001', protocol: 'http'});
-
-const contract = require('truffle-contract')
-const simpleStorage = contract(SimpleStorageContract)
-let account;
-
-// Declaring this for later so we can chain functions on SimpleStorage.
-let contractInstance;
-
-let saveImageOnIpfs = (reader) =&amp;gt; {
-  return new Promise(function(resolve, reject) {
-    const buffer = Buffer.from(reader.result);
-    ipfs.add(buffer).then((response) =&amp;gt; {
-      console.log(response)
-      resolve(response[0].hash);
-    }).catch((err) =&amp;gt; {
-      console.error(err)
-      reject(err);
-    })
-  })
-}
-
-class App extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      blockChainHash: null,
-      web3: null,
-      address: null,
-      imgHash: null,
-      isWriteSuccess: false
-    }
-  }
-
-  componentWillMount() {
-
-    ipfs.swarm.peers(function(err, res) {
-      if (err) {
-        console.error(err);
-      } else {
-        // var numPeers = res.Peers === null ? 0 : res.Peers.length;
-        // console.log(&quot;IPFS - connected to &quot; + numPeers + &quot; peers&quot;);
-        console.log(res);
-      }
-    });
-
-    getWeb3.then(results =&amp;gt; {
-      this.setState({web3: results.web3})
-
-      // Instantiate contract once web3 provided.
-      this.instantiateContract()
-    }).catch(() =&amp;gt; {
-      console.log('Error finding web3.')
-    })
-  }
-
-  instantiateContract = () =&amp;gt; {
-
-    simpleStorage.setProvider(this.state.web3.currentProvider);
-    this.state.web3.eth.getAccounts((error, accounts) =&amp;gt; {
-      account = accounts[0];
-      simpleStorage.at('0x66e9bbfe244799149a9c4eb708a34ea7c9ce67e2').then((contract) =&amp;gt; {
-        console.log(contract.address);
-        contractInstance = contract;
-        this.setState({address: contractInstance.address});
-        return;
-      });
-    })
-
-  }
-  render() {
-    return (&amp;lt;div className=&quot;App&quot;&amp;gt;
-      {
-        this.state.address
-          ? &amp;lt;h1&amp;gt;合约地址：{this.state.address}&amp;lt;/h1&amp;gt;
-          : &amp;lt;div/&amp;gt;
-      }
-      &amp;lt;h2&amp;gt;上传图片到IPFS：&amp;lt;/h2&amp;gt;
-      &amp;lt;div&amp;gt;
-        &amp;lt;label id=&quot;file&quot;&amp;gt;Choose file to upload&amp;lt;/label&amp;gt;
-        &amp;lt;input type=&quot;file&quot; ref=&quot;file&quot; id=&quot;file&quot; name=&quot;file&quot; multiple=&quot;multiple&quot;/&amp;gt;
-      &amp;lt;/div&amp;gt;
-      &amp;lt;div&amp;gt;
-        &amp;lt;button onClick={() =&amp;gt; {
-            var file = this.refs.file.files[0];
-            var reader = new FileReader();
-            // reader.readAsDataURL(file);
-            reader.readAsArrayBuffer(file)
-            reader.onloadend = function(e) {
-              console.log(reader);
-              saveImageOnIpfs(reader).then((hash) =&amp;gt; {
-                console.log(hash);
-                this.setState({imgHash: hash})
-              });
-
-            }.bind(this);
-
-          }}&amp;gt;将图片上传到IPFS并返回图片HASH&amp;lt;/button&amp;gt;
-      &amp;lt;/div&amp;gt;
-      {
-        this.state.imgHash
-          ? &amp;lt;div&amp;gt;
-              &amp;lt;h2&amp;gt;imgHash：{this.state.imgHash}&amp;lt;/h2&amp;gt;
-              &amp;lt;button onClick={() =&amp;gt; {
-                  contractInstance.set(this.state.imgHash, {from: account}).then(() =&amp;gt; {
-                    console.log('图片的hash已经写入到区块链！');
-                    this.setState({isWriteSuccess: true});
-                  })
-                }}&amp;gt;将图片hash写到区块链：contractInstance.set(imgHash)&amp;lt;/button&amp;gt;
-            &amp;lt;/div&amp;gt;
-          : &amp;lt;div/&amp;gt;
-      }
-      {
-        this.state.isWriteSuccess
-          ? &amp;lt;div&amp;gt;
-              &amp;lt;h1&amp;gt;图片的hash已经写入到区块链！&amp;lt;/h1&amp;gt;
-              &amp;lt;button onClick={() =&amp;gt; {
-                  contractInstance.get({from: account}).then((data) =&amp;gt; {
-                    console.log(data);
-                    this.setState({blockChainHash: data});
-                  })
-                }}&amp;gt;从区块链读取图片hash：contractInstance.get()&amp;lt;/button&amp;gt;
-            &amp;lt;/div&amp;gt;
-          : &amp;lt;div/&amp;gt;
-      }
-      {
-        this.state.blockChainHash
-          ? &amp;lt;div&amp;gt;
-              &amp;lt;h3&amp;gt;从区块链读取到的hash值：{this.state.blockChainHash}&amp;lt;/h3&amp;gt;
-            &amp;lt;/div&amp;gt;
-          : &amp;lt;div/&amp;gt;
-      }
-      {
-        this.state.blockChainHash
-          ? &amp;lt;div&amp;gt;
-              &amp;lt;h2&amp;gt;浏览器访问：{&quot;http://localhost:8080/ipfs/&quot; + this.state.imgHash}&amp;lt;/h2&amp;gt;
-              &amp;lt;img alt=&quot;&quot; style= src={&quot;http://localhost:8080/ipfs/&quot; + this.state.imgHash}/&amp;gt;
-            &amp;lt;/div&amp;gt;
-          : &amp;lt;img alt=&quot;&quot;/&amp;gt;
-      }
-    &amp;lt;/div&amp;gt;);
-  }
-}
-
-export default App
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;5-运行程序&quot;&gt;5. 运行程序&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;项目下载&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ git clone https://github.com/liyuechun/IPFS-Ethereum-Image.git
-$ cd IPFS-Ethereum-Image
-$ npm install
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;运行程序&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ ipfs daemon // 终端一
-$ npm start   // 终端二
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;6-技术交流&quot;&gt;6. 技术交流&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;区块链技术交流QQ群：&lt;code class=&quot;highlighter-rouge&quot;&gt;348924182&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;进微信群请加微信：&lt;code class=&quot;highlighter-rouge&quot;&gt;liyc1215&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;「区块链部落」官方公众号&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://om1c35wrq.bkt.clouddn.com/%E5%8C%BA%E5%9D%97%E9%93%BE%E9%83%A8%E8%90%BD.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-</description>
-        <pubDate>Sun, 26 Nov 2017 00:00:00 +0800</pubDate>
-        <link>/2017/11/26/ipfs-ethereum-image/</link>
-        <guid isPermaLink="true">/2017/11/26/ipfs-ethereum-image/</guid>
-        
-        <category>IPFS+区块链</category>
         
         
       </item>
