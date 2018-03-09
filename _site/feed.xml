@@ -5,8 +5,8 @@
     <description>lfx 微信:chen1048258，全球区块链职业教育布道师，通信和信息技术培养工程区块链高级授课专家。</description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 09 Mar 2018 14:33:59 +0800</pubDate>
-    <lastBuildDate>Fri, 09 Mar 2018 14:33:59 +0800</lastBuildDate>
+    <pubDate>Fri, 09 Mar 2018 14:55:26 +0800</pubDate>
+    <lastBuildDate>Fri, 09 Mar 2018 14:55:26 +0800</lastBuildDate>
     <generator>Jekyll v3.5.1</generator>
     
       <item>
@@ -370,8 +370,10 @@ export default App;
 &lt;p&gt;&lt;img src=&quot;image/wecha.jpeg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;h1 id=&quot;打赏&quot;&gt;打赏&lt;/h1&gt;
-&lt;p&gt;&lt;img src=&quot;image/mywallet.jpeg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-&lt;h1 id=&quot;源码-httpsgithubcomblockchainbipfsreacatappblobmasterreadmemd&quot;&gt;源码 https://github.com/blockChainB/ipfsReacatApp/blob/master/README.md&lt;/h1&gt;
+&lt;p&gt;&lt;img src=&quot;image/mywallet.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;源码&quot;&gt;源码&lt;/h1&gt;
+&lt;p&gt;https://github.com/blockChainB/ipfsReacatApp/blob/master/README.md&lt;/p&gt;
 </description>
         <pubDate>Thu, 08 Mar 2018 00:00:00 +0800</pubDate>
         <link>/2018/03/08/ipfs-react-solidity-app/</link>

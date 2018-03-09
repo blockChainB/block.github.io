@@ -344,5 +344,7 @@ export default App;
 ![](image/wecha.jpeg)
 
 # 打赏
-![](image/mywallet.jpeg)
-# 源码 https://github.com/blockChainB/ipfsReacatApp/blob/master/README.md
+![](image/mywallet.jpg)
+
+# 源码
+ https://github.com/blockChainB/ipfsReacatApp/blob/master/README.md
