@@ -5,9 +5,380 @@
     <description>lfx 微信:chen1048258，全球区块链职业教育布道师，通信和信息技术培养工程区块链高级授课专家。</description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 05 Feb 2018 17:55:52 +0800</pubDate>
-    <lastBuildDate>Mon, 05 Feb 2018 17:55:52 +0800</lastBuildDate>
+    <pubDate>Fri, 09 Mar 2018 14:33:59 +0800</pubDate>
+    <lastBuildDate>Fri, 09 Mar 2018 14:33:59 +0800</lastBuildDate>
     <generator>Jekyll v3.5.1</generator>
+    
+      <item>
+        <title>Ipfs React Solidity App</title>
+        <description>&lt;h1 id=&quot;ipfs-与react-与solidity结合的demo&quot;&gt;ipfs 与react 与solidity结合的demo&lt;/h1&gt;
+
+&lt;h1 id=&quot;第一步-前期的准备工作&quot;&gt;第一步 前期的准备工作&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;在http://ipfs.io安装ipfs 配置好跨域&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;建立一个工作目录&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mkdir ipfs-image
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;安装 react&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;truffle unbox react
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;npm 安装 ipfs-api&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;npm install --save-de ipfs-api
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;用 atom 打开当前目录&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;atom image/
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;打开另一个终端,输入 truffle develop 开启truffel终端编译合约&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; compile
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;部署合约&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;migrate
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;img src=&quot;image/compile-migrate.jpeg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;当前的目录结构
+&lt;img src=&quot;image/list-index.jpeg&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;前期的准备工作完毕-npm-start-测试一下项目&quot;&gt;前期的准备工作完毕 ,npm start 测试一下项目&lt;/h1&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; npm start
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;唤醒 metamask ,点击 submit
+ &lt;img src=&quot;image/show.jpeg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;如果value 改为了5 ,说明前期成功部署结束&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;image/result.jpeg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;第二步编写合约代码&quot;&gt;第二步,编写合约代码&lt;/h1&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pragma solidity ^0.4.18;
+
+contract SimpleStorage {
+  string [] storedData;
+
+  function addData(string x) public {
+    storedData.push(x);
+  }
+
+  function getData(uint i) public view returns (uint,string) {
+    return (storedData.length,storedData[i]);
+  }
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;h1 id=&quot;第三部编写srcappjs代码&quot;&gt;第三部,编写/src/APP.js代码&lt;/h1&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;import React, {Component} from 'react'
+import SimpleStorageContract from '.image/build/contracts/SimpleStorage.json'
+import getWeb3 from 'image/utils/getWeb3'
+
+import 'image/css/oswald.css'
+import 'image/css/open-sans.css'
+import 'image/css/pure-min.css'
+import 'image/App.css'
+
+//ipfs
+
+import ipfsAPI from 'ipfs-api';
+var ipfs = ipfsAPI('localhost', '5001', {protocol: 'http'});
+var simpleStorageInstance
+var account
+var counts
+let saveImageOnIpfs = (reader) =&amp;gt; {
+  return new Promise(function(resolve, reject) {
+    const buffer = Buffer.from(reader.result);
+    ipfs.add(buffer).then((response) =&amp;gt; {
+      console.log(response)
+
+      resolve(response[0].hash);
+    }).catch((err) =&amp;gt; {
+      console.error(err)
+
+      reject(err);
+    })
+
+  })
+}
+
+let SaveOnIPFS = (text) =&amp;gt; {
+  return new Promise(function(reslove, reject) {
+    //
+    var str = Buffer.from(text, 'utf-8');
+    console.log(str);
+    if (str.length) {
+      ipfs.add(str).then((response) =&amp;gt; {
+        reslove(response[0].hash);
+
+      })
+    } else {
+      reject()
+    }
+
+  })
+
+}
+
+let Utf8ArrayToStr = (array) =&amp;gt; {
+  var out,
+    i,
+    len,
+    c;
+  var char2,
+    char3;
+
+  out = &quot;&quot;;
+  len = array.length;
+  i = 0;
+  while (i &amp;lt; len) {
+    c = array[i++];
+    switch (c &amp;gt;&amp;gt; 4) {
+      case 0:
+      case 1:
+      case 2:
+      case 3:
+      case 4:
+      case 5:
+      case 6:
+      case 7:
+        // 0xxxxxxx
+        out += String.fromCharCode(c);
+        break;
+      case 12:
+      case 13:
+        // 110x xxxx   10xx xxxx
+        char2 = array[i++];
+        out += String.fromCharCode(((c &amp;amp; 0x1F) &amp;lt;&amp;lt; 6) | (char2 &amp;amp; 0x3F));
+        break;
+      case 14:
+        // 1110 xxxx  10xx xxxx  10xx xxxx
+        char2 = array[i++];
+        char3 = array[i++];
+        out += String.fromCharCode(((c &amp;amp; 0x0F) &amp;lt;&amp;lt; 12) | ((char2 &amp;amp; 0x3F) &amp;lt;&amp;lt; 6) | ((char3 &amp;amp; 0x3F) &amp;lt;&amp;lt; 0));
+        break;
+      default:
+        break;
+    }
+  }
+
+  return out;
+}
+
+class App extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+
+      storageValue: 0,
+      web3: null,
+      str: null,
+      imgehashs: []
+    }
+  }
+
+  componentWillMount() {
+    // Get network provider and web3 instance.
+    // See utils/getWeb3 for more info.
+
+    getWeb3.then(results =&amp;gt; {
+      this.setState({web3: results.web3})
+
+      // Instantiate contract once web3 provided.
+      this.instantiateContract()
+    }).catch(() =&amp;gt; {
+      console.log('Error finding web3.')
+    })
+  }
+
+  instantiateContract() {
+    /*
+     * SMART CONTRACT EXAMPLE
+     *
+     * Normally these functions would be called in the context of a
+     * state management library, but for convenience I've placed them here.
+     */
+
+    const contract = require('truffle-contract')
+    const simpleStorage = contract(SimpleStorageContract)
+    simpleStorage.setProvider(this.state.web3.currentProvider)
+
+    // Declaring this for later so we can chain functions on SimpleStorage.
+
+    // Get accounts.
+    this.state.web3.eth.getAccounts((error, accounts) =&amp;gt; {
+      simpleStorage.deployed().then((instance) =&amp;gt; {
+        simpleStorageInstance = instance
+        account = accounts[0];
+        // Stores a given value, 5 by default.
+
+        // return simpleStorageInstance.set(5, {from: accounts[0]})
+        console.log(simpleStorageInstance);
+      }).then((result) =&amp;gt; {
+        // Get the value from the contract to prove it worked.
+        // return simpleStorageInstance.get.call(accounts[0])
+        return simpleStorageInstance.getData(0, {from: accounts[0]})
+
+      }).then((result) =&amp;gt; {
+        // Update state with the result.
+        // return this.setState({storageValue: result.c[0]})
+        console.log(result[0].c[0]);
+        //有多个呀
+        var count = result[0].c[0];
+        var tempArray = this.state.imgehashs;
+        var that = this
+
+        for (var i = 1; i &amp;lt; count; i++) {
+          (function(i) {
+            simpleStorageInstance.getData(i, {from: accounts[0]}).then((result) =&amp;gt; {
+              tempArray.push(result[1]);
+              console.log(tempArray);
+              counts = i;
+              that.setState({imgehashs: tempArray})
+            })
+          }(i))
+
+        }
+
+      })
+    })
+  }
+
+  render() {
+    var images = this.state.imgehashs.map((hash, index) =&amp;gt; {
+      return &amp;lt;div key={index} style=&amp;gt;
+        &amp;lt;img src={&quot;http://localhost:8080/ipfs/&quot; + hash} alt={index} style=/&amp;gt;
+      &amp;lt;/div&amp;gt;
+    })
+
+    console.log(images);
+
+    return (&amp;lt;div className=&quot;App&quot;&amp;gt;
+      &amp;lt;nav className=&quot;navbar pure-menu pure-menu-horizontal&quot;&amp;gt;
+        &amp;lt;a href=&quot;#&quot; className=&quot;pure-menu-heading pure-menu-link&quot;&amp;gt;我的区块链相册 ,保存图片到ipfs,图片hash保存到eth区块链&amp;lt;/a&amp;gt;
+      &amp;lt;/nav&amp;gt;
+
+      &amp;lt;main className=&quot;container&quot;&amp;gt;
+        &amp;lt;div className=&quot;pure-g&quot;&amp;gt;
+
+          &amp;lt;div style=&amp;gt;
+            &amp;lt;input ref=&quot;input_1&quot; type=&quot;file&quot; multiple=&quot;multiple&quot;/&amp;gt;
+
+            &amp;lt;button onClick={() =&amp;gt; {
+                var imgs = this.refs.input_1.files
+
+                var reader = new FileReader();
+                reader.readAsArrayBuffer(imgs[0])
+                reader.onloadend = (e) =&amp;gt; {
+                  console.log(&quot;图片hash来了&quot;);
+                  saveImageOnIpfs(reader).then(respon =&amp;gt; {
+                    console.log(respon);
+                    //加载图片了
+                    //把hash存到区块链
+                    counts += 1
+                    simpleStorageInstance.addData(respon, {from: this.state.web3.eth.accounts[0]}).then(() =&amp;gt; {
+                      simpleStorageInstance.getData(counts).then((result) =&amp;gt; {
+                        console.log(&quot;区块链&quot;);
+                        console.log(result);
+                        var tempArray = this.state.imgehashs;
+                        tempArray.push(result[1]);
+                        this.setState({imgehash: tempArray})
+
+                      })
+
+                    })
+
+                  })
+                }
+
+              }}&amp;gt;提交&amp;lt;/button&amp;gt;
+
+            &amp;lt;div id=&quot;imges&quot; style=&amp;gt;
+              {images}
+            &amp;lt;/div&amp;gt;
+
+          &amp;lt;/div&amp;gt;
+
+        &amp;lt;/div&amp;gt;
+      &amp;lt;/main&amp;gt;
+    &amp;lt;/div&amp;gt;);
+  }
+}
+export default App;
+
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h1 id=&quot;第四步-启动ipfs重新编译部署&quot;&gt;第四步 启动ipfs,重新编译,部署&lt;/h1&gt;
+
+&lt;p&gt;&lt;img src=&quot;image/ipfsstart.jpeg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;重新编译,部署&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;image/compile-reset.jpeg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;选择文件点击提交-测试&quot;&gt;选择文件,点击提交 ,测试&lt;/h1&gt;
+&lt;p&gt;&lt;img src=&quot;image/test-result.jpeg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;不懂联系我wechat-chen1048258&quot;&gt;不懂联系我weChat: chen1048258&lt;/h1&gt;
+
+&lt;p&gt;&lt;img src=&quot;image/wecha.jpeg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;打赏&quot;&gt;打赏&lt;/h1&gt;
+&lt;p&gt;&lt;img src=&quot;image/mywallet.jpeg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;h1 id=&quot;源码-httpsgithubcomblockchainbipfsreacatappblobmasterreadmemd&quot;&gt;源码 https://github.com/blockChainB/ipfsReacatApp/blob/master/README.md&lt;/h1&gt;
+</description>
+        <pubDate>Thu, 08 Mar 2018 00:00:00 +0800</pubDate>
+        <link>/2018/03/08/ipfs-react-solidity-app/</link>
+        <guid isPermaLink="true">/2018/03/08/ipfs-react-solidity-app/</guid>
+        
+        
+      </item>
     
       <item>
         <title>Solidity智能合约常用关键词</title>
@@ -47,13 +418,13 @@ contract XiaoWang is DaWang{
  当前可以访问&lt;/p&gt;
     &lt;/blockquote&gt;
   &lt;/li&gt;
-  &lt;li&gt;**internal **
+  &lt;li&gt;internal
     &lt;blockquote&gt;
       &lt;p&gt;子类可以继承
  子类可以访问&lt;/p&gt;
     &lt;/blockquote&gt;
   &lt;/li&gt;
-  &lt;li&gt;**private **
+  &lt;li&gt;private
     &lt;blockquote&gt;
       &lt;p&gt;子类不可以继承
  子类不可以访问&lt;/p&gt;
@@ -949,261 +1320,6 @@ MethodID: 0xcbf0b0c0
         <guid isPermaLink="true">/2017/12/02/parity-Wallet-contract-loopholes/</guid>
         
         <category>安全</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>【以太坊智能合约】Embark Framework 开发基础篇</title>
-        <description>&lt;blockquote&gt;
-  &lt;p&gt;作者： 黎跃春 
-微信：liyc1215（进微信群，加微信）&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;在之前的文章中，我们看到了使用Solidity开发以太坊智能合约的所有基本知识。我们使用了以太坊钱包，我们能够轻松设置小型产品开发环境。我们会发现开始的时候很不错，但是如果我们想要更深入的话呢？我们要编写更大的应用程序，能够使用多个源文件。编写、测试、调试、使用版本控制系统，一次部署多个合约等等。&lt;/p&gt;
-
-&lt;p&gt;为了更深入，我们将使用Embark框架。 Embark框架很容易上手，并具有很多功能：&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Blockchain (Ethereum)&lt;/li&gt;
-  &lt;li&gt;去中心化 Storage (IPFS)&lt;/li&gt;
-  &lt;li&gt;去中心化交流 (Whisper, Orbit)&lt;/li&gt;
-  &lt;li&gt;Web 技术&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;目录&quot;&gt;目录&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;#1-安装-Embark-framework&quot;&gt;1. 安装 Embark framework&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#2-Embark-framework-Hello-World&quot;&gt;2. Embark framework Hello World&lt;/a&gt;
-    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;#21-启动服务器和控制器&quot;&gt;2.1 启动服务器和控制器&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#22-终端读取和修改`storedData`的值&quot;&gt;2.2 终端读取和修改&lt;code class=&quot;highlighter-rouge&quot;&gt;storedData&lt;/code&gt;的值&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#23-Web端获取`storedData`的值&quot;&gt;2.3 Web端获取&lt;code class=&quot;highlighter-rouge&quot;&gt;storedData&lt;/code&gt;的值&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#24-Web端点击`Set-Value`修改`storedData`的值&quot;&gt;2.4 Web端点击&lt;code class=&quot;highlighter-rouge&quot;&gt;Set Value&lt;/code&gt;修改&lt;code class=&quot;highlighter-rouge&quot;&gt;storedData&lt;/code&gt;的值&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#3-小结&quot;&gt;3. 小结&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;1-安装-embark-framework&quot;&gt;1. 安装 Embark framework&lt;/h2&gt;
-
-&lt;p&gt;你可以在任何平台安装&lt;code class=&quot;highlighter-rouge&quot;&gt;Embark framework&lt;/code&gt;，下面是你需要安装的工具。&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/ethereum/go-ethereum/wiki/Building-Ethereum&quot;&gt;Geth:Ethereum 协议的官方go实现&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://nodejs.org/en/download/&quot;&gt;NodeJS和NPM:JavaScript应用的运行时和包管理器&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;如果你已经安装上面的工具，我们将使用&lt;code class=&quot;highlighter-rouge&quot;&gt;NPM&lt;/code&gt;来安装&lt;code class=&quot;highlighter-rouge&quot;&gt; embark framework&lt;/code&gt;。&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;localhost:~ yuechunli$  npm -g install embark ethereumjs-testrpc
-/usr/local/bin/embark -&amp;gt; /usr/local/lib/node_modules/embark/bin/embark
-/usr/local/bin/testrpc -&amp;gt; /usr/local/lib/node_modules/ethereumjs-testrpc/build/cli.node.js
-+ ethereumjs-testrpc@4.1.3
-+ embark@2.5.2
-updated 2 packages in 42.504s
-
-
-   ╭─────────────────────────────────────╮
-   │                                     │
-   │   Update available 5.3.0 → 5.4.2    │
-   │     Run npm i -g npm to update      │
-   │                                     │
-   ╰─────────────────────────────────────╯
-
-localhost:~ yuechunli$ 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;2-embark-framework-hello-world&quot;&gt;2. Embark framework Hello World&lt;/h2&gt;
-
-&lt;h3 id=&quot;21-启动服务器和控制器&quot;&gt;2.1 启动服务器和控制器&lt;/h3&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Embark framework&lt;/code&gt;包含最基本能够用来部署并让我们容易理解它如何运作的&lt;code class=&quot;highlighter-rouge&quot;&gt;demo&lt;/code&gt;。打开终端，首先我们创建一个一个文件夹&lt;code class=&quot;highlighter-rouge&quot;&gt;embark_demo&lt;/code&gt;，切换到&lt;code class=&quot;highlighter-rouge&quot;&gt;embark_demo&lt;/code&gt;文件夹里面，通过&lt;code class=&quot;highlighter-rouge&quot;&gt;embark demo&lt;/code&gt;命令来创建&lt;code class=&quot;highlighter-rouge&quot;&gt;Embark framework&lt;/code&gt;的初始化项目。&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;localhost:SmartContractDemo yuechunli$ ls
-BloggerCoin	EncryptedToken	HelloWorld
-localhost:SmartContractDemo yuechunli$ mkdir embark_demo
-localhost:SmartContractDemo yuechunli$ cd embark_demo/
-localhost:embark_demo yuechunli$ embark demo
-Initializing Embark Template....
-Installing packages.. this can take a few seconds
-Init complete
-
-App ready at embark_demo
--------------------
-Next steps:
--&amp;gt; cd embark_demo
--&amp;gt; embark blockchain or embark simulator
-open another console in the same directory and run
--&amp;gt; embark run
-For more info go to http://github.com/iurimatias/embark-framework
-localhost:embark_demo yuechunli$ ls
-embark_demo
-localhost:embark_demo yuechunli$ cd embark_demo/
-localhost:embark_demo yuechunli$ ls
-app			embark.json		package.json
-chains.json		node_modules		test
-config			package-lock.json
-localhost:embark_demo yuechunli$ 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;为了运行这个demo，我们得先通过&lt;code class=&quot;highlighter-rouge&quot;&gt;embark simulator&lt;/code&gt;启动&lt;code class=&quot;highlighter-rouge&quot;&gt;simulator&lt;/code&gt;。&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;localhost:embark_demo yuechunli$ embark simulator
-localhost:embark_demo yuechunli$ embark simulator
-EthereumJS TestRPC v6.0.1 (ganache-core: 2.0.0)
-
-Available Accounts
-==================
-(0) 0x32b083632f44917e2e9125c3025a120c97bb9f8c
-(1) 0xe38af4e162a40d27c6f15e754be1a940ca6b41ab
-(2) 0x19f321c2a9f531cd11b45be37ea12b835390d816
-(3) 0x982eadda586d29e13b38d745d45dccd931a1b471
-(4) 0xb0b4422bfdf431f58df48d0645e8d933d9c7f81d
-(5) 0xd69080b8a458a3fbd3f354b16b2a5964178a2579
-(6) 0x87b394b8f8d7530cd677fdb8fb785aed0431146e
-(7) 0xc1da7d151ed95b616f8b67ed5ce4774525455ee0
-(8) 0xa1878496046ff767401cb768e352c407c7f53018
-(9) 0xd16faa875634d4fe88333555cd7dc9e8c22f3e2e
-
-Private Keys
-==================
-(0) a70c22b2e6fe5f44ca15b44883333ad551e22608953a5f16e44a8b616e151360
-(1) 73a0e9cf90828d1099e5c5ac513cb18b5b804be7278aebf9bb2db5602d0e36da
-(2) 1e083df4a9aa021e64b52318fd64ec8d5959018b2244856466dc5ea102fa2cf8
-(3) 74afaab038ec34c8ac18559a09888dbd4e057fdfa9f41e99a99bbb1fceb32bc7
-(4) 3f27399b396c4d4cacfca45bffb0ce67f1f141bc5202bcd38bf66a9f8213c922
-(5) 36e4b3bfab27957163165aa185fed01134d90a41d2dbaed88a9eeff7c7be4583
-(6) 94292f49bd516fecd6bf775b5057cd215bb159efbc808b4cf0cf04afcd43418b
-(7) d9d43481879b1f130379c26df5a32ded19aabe3812e46ba52ef8b163f858ce40
-(8) 61679bc6a888d5d76af56ffcfcd7383befd44032254e35272e1f227f12dd4016
-(9) a8ac9f59c020136da2933424bf0f196d0a42e4a7f5d1ec8b973ff4d8c6b68a6f
-
-HD Wallet
-==================
-Mnemonic:      soap idle agree episode breeze utility page drive dumb vibrant repeat potato
-Base HD Path:  m/44'/60'/0'/0/{account_index}
-
-Listening on localhost:8545**
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;strong&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;simulator&lt;/code&gt;有两个优势&lt;/strong&gt;：&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;第一，它将在你的计算机上创建一个区块链(blockchain)，因此当你需要部署合约或者做其他交易时，你的计算机将能够挖矿(mine)。&lt;/li&gt;
-  &lt;li&gt;第二，你不需要下载所有的&lt;code class=&quot;highlighter-rouge&quot;&gt;Ethereum&lt;/code&gt;区块链，这样能节省你的空间。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;接下来我们重启一个终端通过&lt;code class=&quot;highlighter-rouge&quot;&gt;embark run&lt;/code&gt;命令来运行程序。&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;localhost:embark_demo yuechunli$ embark run
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://om1c35wrq.bkt.clouddn.com/embark%20run%20demo.png&quot; alt=&quot;embark run&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;元素解释：&lt;/strong&gt;&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;当前部署的合约和地址列表显示在&lt;code class=&quot;highlighter-rouge&quot;&gt;Embark&lt;/code&gt;演示的demo中只有一个简单的合约&lt;code class=&quot;highlighter-rouge&quot;&gt;SimpleStorage&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;SimpleStorage&lt;/code&gt;合约具有简单的任务：存储一个值，并使这个值可从外部读取。&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;http://localhost:8000&lt;/code&gt;为当前UI前端的地址和端口。&lt;/li&gt;
-  &lt;li&gt;可以和你合约进行交互的控制台。&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&quot;22-终端读取和修改storeddata的值&quot;&gt;2.2 终端读取和修改&lt;code class=&quot;highlighter-rouge&quot;&gt;storedData&lt;/code&gt;的值&lt;/h3&gt;
-
-&lt;p&gt;&lt;strong&gt;让我们用atom打开demo看看合约代码：&lt;/strong&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;simple_storage.sol&lt;/code&gt;文件在&lt;code class=&quot;highlighter-rouge&quot;&gt;app/contracts&lt;/code&gt;文件夹下面。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://om1c35wrq.bkt.clouddn.com/simple_storage_sol.png&quot; alt=&quot;Embark 演示demo&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;在&lt;code class=&quot;highlighter-rouge&quot;&gt;SimpleStorage&lt;/code&gt;这个合约中，有一个&lt;code class=&quot;highlighter-rouge&quot;&gt;storedData&lt;/code&gt;状态变量用于存储一个&lt;code class=&quot;highlighter-rouge&quot;&gt;uint无符号整型的值。&lt;/code&gt;因为前面我们已经启动了服务，并且已经将合约部署到了本地测试网络，所以我们可以切换到终端，在终端中通过&lt;code class=&quot;highlighter-rouge&quot;&gt;SimpleStorage.get()&lt;/code&gt;获取&lt;code class=&quot;highlighter-rouge&quot;&gt;storedData&lt;/code&gt;的值，通过&lt;code class=&quot;highlighter-rouge&quot;&gt;SimpleStorage.set(88)&lt;/code&gt;修改状态变量的值，操作如下图所示:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://om1c35wrq.bkt.clouddn.com/Snip20171122_10.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;23-web端获取storeddata的值&quot;&gt;2.3 Web端获取&lt;code class=&quot;highlighter-rouge&quot;&gt;storedData&lt;/code&gt;的值&lt;/h3&gt;
-
-&lt;p&gt;浏览项目，不难发现，在&lt;code class=&quot;highlighter-rouge&quot;&gt;app&lt;/code&gt;这个文件夹中，除了&lt;code class=&quot;highlighter-rouge&quot;&gt;contracts&lt;/code&gt;文件夹外，还有&lt;code class=&quot;highlighter-rouge&quot;&gt;css&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;images&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;js&lt;/code&gt;等文件夹，它们包含了和区块链交互的&lt;code class=&quot;highlighter-rouge&quot;&gt;web app&lt;/code&gt;的源码。在浏览器中打开&lt;code class=&quot;highlighter-rouge&quot;&gt;http://localhost:8000&lt;/code&gt;看看&lt;code class=&quot;highlighter-rouge&quot;&gt;Embark&lt;/code&gt;demo&lt;code class=&quot;highlighter-rouge&quot;&gt;web&lt;/code&gt;端的效果。&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt;默认端口为&lt;code class=&quot;highlighter-rouge&quot;&gt;8000&lt;/code&gt;，如果想修改端口可以到&lt;code class=&quot;highlighter-rouge&quot;&gt;config/webserver.json&lt;/code&gt;文件里面进行修改。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://om1c35wrq.bkt.clouddn.com/WX20170928-205437@2x.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;下图是&lt;code class=&quot;highlighter-rouge&quot;&gt;WebApp&lt;/code&gt;效果图：&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://om1c35wrq.bkt.clouddn.com/embark-yanshi.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;默认的初始值为&lt;code class=&quot;highlighter-rouge&quot;&gt;100&lt;/code&gt;，如果想在Web端点击&lt;code class=&quot;highlighter-rouge&quot;&gt;Get Value&lt;/code&gt;按钮获取值，当前的&lt;code class=&quot;highlighter-rouge&quot;&gt;MetaMask&lt;/code&gt;钱包必须和本地的区块链测试网络一致，本地测试网络的RPC地址和端口为：&lt;code class=&quot;highlighter-rouge&quot;&gt;localhost:8545&lt;/code&gt;，所以需要在&lt;code class=&quot;highlighter-rouge&quot;&gt;MetaMask&lt;/code&gt;钱包中将测试网络切换到&lt;code class=&quot;highlighter-rouge&quot;&gt;localhost:8545&lt;/code&gt;，然后点击&lt;code class=&quot;highlighter-rouge&quot;&gt;Get Value&lt;/code&gt;按钮，即可获得存储到区块链上的&lt;code class=&quot;highlighter-rouge&quot;&gt;storedData&lt;/code&gt;的值。【PS：从区块链获取值不需要花费gas，但是MetaMask钱包网络必须和区块链部署的网络是同一个测试网络。】&lt;/p&gt;
-
-&lt;h3 id=&quot;24-web端点击set-value修改storeddata的值&quot;&gt;2.4 Web端点击&lt;code class=&quot;highlighter-rouge&quot;&gt;Set Value&lt;/code&gt;修改&lt;code class=&quot;highlighter-rouge&quot;&gt;storedData&lt;/code&gt;的值&lt;/h3&gt;
-
-&lt;p&gt;目前我们的&lt;code class=&quot;highlighter-rouge&quot;&gt;MetaMask&lt;/code&gt;的&lt;code class=&quot;highlighter-rouge&quot;&gt;localhost:8545&lt;/code&gt;测试网络中，钱包地址中默认的以太币为&lt;code class=&quot;highlighter-rouge&quot;&gt;0&lt;/code&gt;，如下图所示：&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://om1c35wrq.bkt.clouddn.com/Snip20171122_11.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;如果我们想在&lt;code class=&quot;highlighter-rouge&quot;&gt;Web端&lt;/code&gt;通过&lt;code class=&quot;highlighter-rouge&quot;&gt;Set Value&lt;/code&gt;按钮去修改&lt;code class=&quot;highlighter-rouge&quot;&gt;storedData&lt;/code&gt;的值，我们的&lt;code class=&quot;highlighter-rouge&quot;&gt;MetaMask&lt;/code&gt;账号里面必须得有以太币，那么，那么，那么……&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;如何获取以太币呢？&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;在我们终端中通过&lt;code class=&quot;highlighter-rouge&quot;&gt;embark simulator&lt;/code&gt;启动时，会默认分配&lt;code class=&quot;highlighter-rouge&quot;&gt;10&lt;/code&gt;个钱包地点，并且每个账号里面的余额都默认为&lt;code class=&quot;highlighter-rouge&quot;&gt;100&lt;/code&gt;，我们在终端查询一下先：&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://om1c35wrq.bkt.clouddn.com/Snip20171122_12.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;下一步拷贝我们&lt;code class=&quot;highlighter-rouge&quot;&gt;MetaMask&lt;/code&gt;里面的钱包地址，在控制台执行下面的命令。&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;count = web3.toWei(60,'ether');
-
-web3.eth.sendTransaction({from: '0xe38af4e162a40d27c6f15e754be1a940ca6b41ab',to: '0xF055775eBD516e7419ae486C1d50C682d4170645',value: count});
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;&lt;img src=&quot;http://om1c35wrq.bkt.clouddn.com/Snip20171122_16.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;⚠️：&lt;/strong&gt;我们在终端查询&lt;code class=&quot;highlighter-rouge&quot;&gt;0xe38af4e162a40d27c6f15e754be1a940ca6b41ab&lt;/code&gt;地址余额时，它比&lt;code class=&quot;highlighter-rouge&quot;&gt;40&lt;/code&gt;个以太币要少一些，原因是因为转账需要花手续费。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://om1c35wrq.bkt.clouddn.com/Snip20171122_16%20%281%29.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;如上图所示，&lt;code class=&quot;highlighter-rouge&quot;&gt;0xF055775eBD516e7419ae486C1d50C682d4170645&lt;/code&gt;账号已充值&lt;code class=&quot;highlighter-rouge&quot;&gt;60 ether&lt;/code&gt;。&lt;/p&gt;
-
-&lt;p&gt;接下来我们就可以在&lt;code class=&quot;highlighter-rouge&quot;&gt;Web&lt;/code&gt;端调用&lt;code class=&quot;highlighter-rouge&quot;&gt;Set Value&lt;/code&gt;来修改&lt;code class=&quot;highlighter-rouge&quot;&gt;storedData&lt;/code&gt;的值，我们在Web端将其值修改为&lt;code class=&quot;highlighter-rouge&quot;&gt;520&lt;/code&gt;，然后再在终端查看一下&lt;code class=&quot;highlighter-rouge&quot;&gt;storedData&lt;/code&gt;的值是否被修改并且同步。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://om1c35wrq.bkt.clouddn.com/xiugaivalue.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;3-小结&quot;&gt;3. 小结&lt;/h2&gt;
-
-&lt;p&gt;本篇文章主要是带大家初步认识&lt;code class=&quot;highlighter-rouge&quot;&gt;Embark framework&lt;/code&gt;，通过本篇文章，相信大家对&lt;code class=&quot;highlighter-rouge&quot;&gt;Embark framework&lt;/code&gt;框架有了初步的认识，知道如何安装&lt;code class=&quot;highlighter-rouge&quot;&gt;Embark framework&lt;/code&gt;环境，如何启动模拟器，如何运行程序，如何在控制台和合约实例交互。&lt;/p&gt;
-
-&lt;h2 id=&quot;4-参考文档&quot;&gt;4. 参考文档&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;https://solidity.readthedocs.io&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ethereumbuilders.gitbooks.io/guide/content/en/ethereum_javascript_api.html&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;web3js.readthedocs.io/en/1.0/index.html&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;https://ethereumdev.io/getting-started-with-embark-framework&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;http://embark.readthedocs.io/en/2.5.2&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;5-技术交流&quot;&gt;5. 技术交流&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;区块链技术交流QQ群：348924182&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;「区块链部落」官方公众号&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://om1c35wrq.bkt.clouddn.com/%E5%8C%BA%E5%9D%97%E9%93%BE%E9%83%A8%E8%90%BD.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-</description>
-        <pubDate>Thu, 30 Nov 2017 00:00:00 +0800</pubDate>
-        <link>/2017/11/30/embark-basic/</link>
-        <guid isPermaLink="true">/2017/11/30/embark-basic/</guid>
-        
-        <category>embark</category>
         
         
       </item>

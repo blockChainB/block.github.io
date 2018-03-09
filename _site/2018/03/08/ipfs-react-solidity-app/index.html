@@ -1,0 +1,361 @@
+<h1 id="ipfs-与react-与solidity结合的demo">ipfs 与react 与solidity结合的demo</h1>
+
+<h1 id="第一步-前期的准备工作">第一步 前期的准备工作</h1>
+
+<ul>
+  <li>
+    <p>在http://ipfs.io安装ipfs 配置好跨域</p>
+  </li>
+  <li>
+    <p>建立一个工作目录</p>
+  </li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>mkdir ipfs-image
+
+</code></pre>
+</div>
+<ul>
+  <li>安装 react</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>truffle unbox react
+
+</code></pre>
+</div>
+
+<ul>
+  <li>npm 安装 ipfs-api</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>npm install --save-de ipfs-api
+
+</code></pre>
+</div>
+<ul>
+  <li>用 atom 打开当前目录</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>atom image/
+
+</code></pre>
+</div>
+
+<ul>
+  <li>打开另一个终端,输入 truffle develop 开启truffel终端编译合约</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code> compile
+</code></pre>
+</div>
+<p>部署合约</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>migrate
+</code></pre>
+</div>
+<p><img src="image/compile-migrate.jpeg" alt="" /></p>
+
+<ul>
+  <li>当前的目录结构
+<img src="image/list-index.jpeg" alt="" /></li>
+</ul>
+
+<h1 id="前期的准备工作完毕-npm-start-测试一下项目">前期的准备工作完毕 ,npm start 测试一下项目</h1>
+
+<div class="highlighter-rouge"><pre class="highlight"><code> npm start
+
+</code></pre>
+</div>
+
+<ul>
+  <li>
+    <p>唤醒 metamask ,点击 submit
+ <img src="image/show.jpeg" alt="" /></p>
+  </li>
+  <li>
+    <p>如果value 改为了5 ,说明前期成功部署结束</p>
+  </li>
+</ul>
+
+<p><img src="image/result.jpeg" alt="" /></p>
+
+<h1 id="第二步编写合约代码">第二步,编写合约代码</h1>
+<div class="highlighter-rouge"><pre class="highlight"><code>pragma solidity ^0.4.18;
+
+contract SimpleStorage {
+  string [] storedData;
+
+  function addData(string x) public {
+    storedData.push(x);
+  }
+
+  function getData(uint i) public view returns (uint,string) {
+    return (storedData.length,storedData[i]);
+  }
+}
+
+
+</code></pre>
+</div>
+<h1 id="第三部编写srcappjs代码">第三部,编写/src/APP.js代码</h1>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>import React, {Component} from 'react'
+import SimpleStorageContract from '.image/build/contracts/SimpleStorage.json'
+import getWeb3 from 'image/utils/getWeb3'
+
+import 'image/css/oswald.css'
+import 'image/css/open-sans.css'
+import 'image/css/pure-min.css'
+import 'image/App.css'
+
+//ipfs
+
+import ipfsAPI from 'ipfs-api';
+var ipfs = ipfsAPI('localhost', '5001', {protocol: 'http'});
+var simpleStorageInstance
+var account
+var counts
+let saveImageOnIpfs = (reader) =&gt; {
+  return new Promise(function(resolve, reject) {
+    const buffer = Buffer.from(reader.result);
+    ipfs.add(buffer).then((response) =&gt; {
+      console.log(response)
+
+      resolve(response[0].hash);
+    }).catch((err) =&gt; {
+      console.error(err)
+
+      reject(err);
+    })
+
+  })
+}
+
+let SaveOnIPFS = (text) =&gt; {
+  return new Promise(function(reslove, reject) {
+    //
+    var str = Buffer.from(text, 'utf-8');
+    console.log(str);
+    if (str.length) {
+      ipfs.add(str).then((response) =&gt; {
+        reslove(response[0].hash);
+
+      })
+    } else {
+      reject()
+    }
+
+  })
+
+}
+
+let Utf8ArrayToStr = (array) =&gt; {
+  var out,
+    i,
+    len,
+    c;
+  var char2,
+    char3;
+
+  out = "";
+  len = array.length;
+  i = 0;
+  while (i &lt; len) {
+    c = array[i++];
+    switch (c &gt;&gt; 4) {
+      case 0:
+      case 1:
+      case 2:
+      case 3:
+      case 4:
+      case 5:
+      case 6:
+      case 7:
+        // 0xxxxxxx
+        out += String.fromCharCode(c);
+        break;
+      case 12:
+      case 13:
+        // 110x xxxx   10xx xxxx
+        char2 = array[i++];
+        out += String.fromCharCode(((c &amp; 0x1F) &lt;&lt; 6) | (char2 &amp; 0x3F));
+        break;
+      case 14:
+        // 1110 xxxx  10xx xxxx  10xx xxxx
+        char2 = array[i++];
+        char3 = array[i++];
+        out += String.fromCharCode(((c &amp; 0x0F) &lt;&lt; 12) | ((char2 &amp; 0x3F) &lt;&lt; 6) | ((char3 &amp; 0x3F) &lt;&lt; 0));
+        break;
+      default:
+        break;
+    }
+  }
+
+  return out;
+}
+
+class App extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+
+      storageValue: 0,
+      web3: null,
+      str: null,
+      imgehashs: []
+    }
+  }
+
+  componentWillMount() {
+    // Get network provider and web3 instance.
+    // See utils/getWeb3 for more info.
+
+    getWeb3.then(results =&gt; {
+      this.setState({web3: results.web3})
+
+      // Instantiate contract once web3 provided.
+      this.instantiateContract()
+    }).catch(() =&gt; {
+      console.log('Error finding web3.')
+    })
+  }
+
+  instantiateContract() {
+    /*
+     * SMART CONTRACT EXAMPLE
+     *
+     * Normally these functions would be called in the context of a
+     * state management library, but for convenience I've placed them here.
+     */
+
+    const contract = require('truffle-contract')
+    const simpleStorage = contract(SimpleStorageContract)
+    simpleStorage.setProvider(this.state.web3.currentProvider)
+
+    // Declaring this for later so we can chain functions on SimpleStorage.
+
+    // Get accounts.
+    this.state.web3.eth.getAccounts((error, accounts) =&gt; {
+      simpleStorage.deployed().then((instance) =&gt; {
+        simpleStorageInstance = instance
+        account = accounts[0];
+        // Stores a given value, 5 by default.
+
+        // return simpleStorageInstance.set(5, {from: accounts[0]})
+        console.log(simpleStorageInstance);
+      }).then((result) =&gt; {
+        // Get the value from the contract to prove it worked.
+        // return simpleStorageInstance.get.call(accounts[0])
+        return simpleStorageInstance.getData(0, {from: accounts[0]})
+
+      }).then((result) =&gt; {
+        // Update state with the result.
+        // return this.setState({storageValue: result.c[0]})
+        console.log(result[0].c[0]);
+        //有多个呀
+        var count = result[0].c[0];
+        var tempArray = this.state.imgehashs;
+        var that = this
+
+        for (var i = 1; i &lt; count; i++) {
+          (function(i) {
+            simpleStorageInstance.getData(i, {from: accounts[0]}).then((result) =&gt; {
+              tempArray.push(result[1]);
+              console.log(tempArray);
+              counts = i;
+              that.setState({imgehashs: tempArray})
+            })
+          }(i))
+
+        }
+
+      })
+    })
+  }
+
+  render() {
+    var images = this.state.imgehashs.map((hash, index) =&gt; {
+      return &lt;div key={index} style=&gt;
+        &lt;img src={"http://localhost:8080/ipfs/" + hash} alt={index} style=/&gt;
+      &lt;/div&gt;
+    })
+
+    console.log(images);
+
+    return (&lt;div className="App"&gt;
+      &lt;nav className="navbar pure-menu pure-menu-horizontal"&gt;
+        &lt;a href="#" className="pure-menu-heading pure-menu-link"&gt;我的区块链相册 ,保存图片到ipfs,图片hash保存到eth区块链&lt;/a&gt;
+      &lt;/nav&gt;
+
+      &lt;main className="container"&gt;
+        &lt;div className="pure-g"&gt;
+
+          &lt;div style=&gt;
+            &lt;input ref="input_1" type="file" multiple="multiple"/&gt;
+
+            &lt;button onClick={() =&gt; {
+                var imgs = this.refs.input_1.files
+
+                var reader = new FileReader();
+                reader.readAsArrayBuffer(imgs[0])
+                reader.onloadend = (e) =&gt; {
+                  console.log("图片hash来了");
+                  saveImageOnIpfs(reader).then(respon =&gt; {
+                    console.log(respon);
+                    //加载图片了
+                    //把hash存到区块链
+                    counts += 1
+                    simpleStorageInstance.addData(respon, {from: this.state.web3.eth.accounts[0]}).then(() =&gt; {
+                      simpleStorageInstance.getData(counts).then((result) =&gt; {
+                        console.log("区块链");
+                        console.log(result);
+                        var tempArray = this.state.imgehashs;
+                        tempArray.push(result[1]);
+                        this.setState({imgehash: tempArray})
+
+                      })
+
+                    })
+
+                  })
+                }
+
+              }}&gt;提交&lt;/button&gt;
+
+            &lt;div id="imges" style=&gt;
+              {images}
+            &lt;/div&gt;
+
+          &lt;/div&gt;
+
+        &lt;/div&gt;
+      &lt;/main&gt;
+    &lt;/div&gt;);
+  }
+}
+export default App;
+
+
+</code></pre>
+</div>
+
+<h1 id="第四步-启动ipfs重新编译部署">第四步 启动ipfs,重新编译,部署</h1>
+
+<p><img src="image/ipfsstart.jpeg" alt="" /></p>
+
+<ul>
+  <li>重新编译,部署</li>
+</ul>
+
+<p><img src="image/compile-reset.jpeg" alt="" /></p>
+
+<h1 id="选择文件点击提交-测试">选择文件,点击提交 ,测试</h1>
+<p><img src="image/test-result.jpeg" alt="" /></p>
+
+<h1 id="不懂联系我wechat-chen1048258">不懂联系我weChat: chen1048258</h1>
+
+<p><img src="image/wecha.jpeg" alt="" /></p>
+
+<h1 id="打赏">打赏</h1>
+<p><img src="image/mywallet.jpeg" alt="" /></p>
+<h1 id="源码-httpsgithubcomblockchainbipfsreacatappblobmasterreadmemd">源码 https://github.com/blockChainB/ipfsReacatApp/blob/master/README.md</h1>
